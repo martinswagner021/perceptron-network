@@ -45,12 +45,20 @@ grid = init_grid(ROWS, COLS, BG_COLOR)
 buttons_y = HEIGHT - TOOLBAR_HEIGHT / 2 - 25
 
 buttons = [
-    Button(10, buttons_y, 50, 50, BLACK, "Limpar"),
-    Button(70, buttons_y, 50, 50, BLACK, "Testar")
+    Button(10, buttons_y, 70, 50, BLACK, "Limpar"),
+    Button(90, buttons_y, 70, 50, BLACK, "Testar"),
+    Button(170, buttons_y, 70, 50, BLACK, "", GREEN)
 ]
 
 while run:
     clock.tick(FPS)
+    img = [[]]
+    for i in grid:
+        for j in i:
+            img[0].append(j[0])
+    img = np.array(img)
+    res = make_prediction(img)
+    buttons[2].update_txt(str(res), WIN)
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -60,6 +68,10 @@ while run:
             try:
                 row, col = get_row_col_from_pos(pos)
                 grid[row][col] = WHITE
+                grid[row][col+1] = WHITE
+                grid[row][col-1] = WHITE
+                grid[row+1][col] = WHITE
+                grid[row-1][col] = WHITE
             except IndexError:
                 for button in buttons:
                     if not button.clicked(pos):
@@ -67,12 +79,8 @@ while run:
                     if button.text == "Limpar":
                         grid = init_grid(ROWS, COLS, BG_COLOR)
                     if button.text == "Testar":
-                        img = [[]]
-                        for i in grid:
-                            for j in i:
-                                img[0].append(j[0])
-                        img = np.array(img)
-                        print(make_prediction(img))
+                        print(img)
+                        
 
     draw(WIN, grid, buttons)
 
