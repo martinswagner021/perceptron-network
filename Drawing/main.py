@@ -69,6 +69,10 @@ while run:
                 row, col = get_row_col_from_pos(pos)
                 grid[row][col] = WHITE
                 grid[row][col+1] = WHITE
+                grid[row-1][col+1] = WHITE
+                grid[row-1][col-1] = WHITE
+                grid[row+1][col-1] = WHITE
+                grid[row+1][col+1] = WHITE
                 grid[row][col-1] = WHITE
                 grid[row+1][col] = WHITE
                 grid[row-1][col] = WHITE
